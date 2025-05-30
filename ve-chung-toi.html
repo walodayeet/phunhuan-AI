@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về chúng tôi - Phú Nhuận AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light grey background */
+        }
+        .gradient-bg {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6); /* Dark blue to light blue gradient */
+        }
+        .btn-primary {
+            @apply bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out;
+        }
+        .btn-secondary {
+            @apply bg-transparent text-blue-600 border border-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition duration-300 ease-in-out;
+        }
+        .section-title {
+            @apply text-4xl font-bold text-gray-800 mb-8 text-center;
+        }
+        .card {
+            @apply bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col items-center text-center;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .fade-in-up {
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up:not(.animate-visible) {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .fade-in-up.animate-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center px-4 md:px-6">
+            <a href="index.html" class="h-8">
+                <img src="https://placehold.co/150x40/3b82f6/ffffff?text=PhuNuanAI+Logo" alt="Phu Nuan AI Logo" class="h-full object-contain">
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Trang chủ</a>
+                <a href="dich-vu.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Dịch vụ</a>
+                <a href="giai-phap.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Giải pháp theo ngành</a>
+                <a href="case-study.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Case Study</a>
+                <a href="blog.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Blog</a>
+                <a href="ve-chung-toi.html" class="text-blue-600 font-semibold transition duration-200">Về chúng tôi</a>
+                <a href="#" class="btn-primary" onclick="openContactModal()">Liên hệ</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-md">
+            <nav class="flex flex-col space-y-2">
+                <a href="index.html" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Trang chủ</a>
+                <a href="dich-vu.html" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Dịch vụ</a>
+                <a href="giai-phap.html" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Giải pháp theo ngành</a>
+                <a href="case-study.html" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Case Study</a>
+                <a href="blog.html" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Blog</a>
+                <a href="ve-chung-toi.html" class="block text-blue-600 font-semibold transition duration-200 py-2">Về chúng tôi</a>
+                <a href="#" class="block btn-primary text-center py-2" onclick="openContactModal()">Liên hệ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="about-full-section" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 md:px-6">
+                <h2 class="section-title fade-in-up">Về Chúng Tôi</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
+                    <div class="md:w-1/2 fade-in-up">
+                        <img src="https://placehold.co/600x400/1e3a8a/ffffff?text=Về+Phú+Nhuận+AI" alt="Về Phú Nhuận AI" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Câu Chuyện Của Phú Nhuận AI</h3>
+                        <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                            Phú Nhuận AI được thành lập với niềm đam mê mang lại những giải pháp công nghệ đột phá, giúp các doanh nghiệp Việt Nam tối ưu hóa hoạt động và phát triển bền vững trong kỷ nguyên số. Chúng tôi tin rằng AI không chỉ là công cụ, mà là một đối tác chiến lược giúp doanh nghiệp đạt được những mục tiêu lớn hơn.
+                        </p>
+                        <p class="text-lg leading-relaxed fade-in-up">
+                            Từ những ngày đầu, chúng tôi đã không ngừng nghiên cứu và phát triển các ứng dụng AI tiên tiến, từ tự động hóa quy trình nghiệp vụ đến phân tích dữ liệu chuyên sâu và cá nhân hóa trải nghiệm khách hàng. Mỗi giải pháp đều được thiết kế tỉ mỉ, phù hợp với đặc thù của từng khách hàng.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mb-12">
+                    <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Tầm Nhìn & Sứ Mệnh</h3>
+                    <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                        **Tầm nhìn:** Trở thành đối tác AI Automation hàng đầu tại Việt Nam, góp phần định hình tương lai số của các doanh nghiệp.
+                    </p>
+                    <p class="text-lg leading-relaxed fade-in-up">
+                        **Sứ mệnh:** Cung cấp các giải pháp AI Automation thông minh, đáng tin cậy và hiệu quả, giúp doanh nghiệp nâng cao năng suất, giảm chi phí và tạo ra lợi thế cạnh tranh bền vững.
+                    </p>
+                </div>
+
+                <div class="mb-12">
+                    <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Đội Ngũ Chuyên Gia</h3>
+                    <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                        Đội ngũ của Phú Nhuận AI bao gồm các kỹ sư, nhà khoa học dữ liệu và chuyên gia tư vấn hàng đầu, những người không chỉ có kiến thức chuyên môn sâu rộng mà còn có kinh nghiệm thực chiến trong việc triển khai các dự án AI phức tạp. Chúng tôi luôn cập nhật những công nghệ mới nhất để đảm bảo khách hàng của mình luôn đi đầu.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                        <div class="card p-6 fade-in-up">
+                            <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+1" alt="Thành viên 1" class="rounded-full mx-auto mb-4">
+                            <h4 class="text-xl font-semibold text-gray-800">Nguyễn Văn A</h4>
+                            <p class="text-blue-600 text-sm">CEO & Đồng Sáng Lập</p>
+                            <p class="text-gray-600 text-sm mt-2">15+ năm kinh nghiệm trong lĩnh vực công nghệ và AI.</p>
+                        </div>
+                        <div class="card p-6 fade-in-up">
+                            <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+2" alt="Thành viên 2" class="rounded-full mx-auto mb-4">
+                            <h4 class="text-xl font-semibold text-gray-800">Trần Thị B</h4>
+                            <p class="text-blue-600 text-sm">Trưởng phòng AI Solutions</p>
+                            <p class="text-gray-600 text-sm mt-2">Chuyên gia về Machine Learning và Xử lý ngôn ngữ tự nhiên.</p>
+                        </div>
+                        <div class="card p-6 fade-in-up">
+                            <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+3" alt="Thành viên 3" class="rounded-full mx-auto mb-4">
+                            <h4 class="text-xl font-semibold text-gray-800">Lê Văn C</h4>
+                            <p class="text-blue-600 text-sm">Giám đốc Vận hành</p>
+                            <p class="text-gray-600 text-sm mt-2">Tối ưu hóa quy trình và quản lý dự án hiệu quả.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Lý Do Chọn Phú Nhuận AI</h3>
+                    <ul class="list-disc list-inside text-lg space-y-2 text-gray-600">
+                        <li class="fade-in-up">**Chuyên môn sâu rộng:** Đội ngũ chuyên gia hàng đầu về AI và tự động hóa.</li>
+                        <li class="fade-in-up">**Giải pháp tùy chỉnh:** Thiết kế giải pháp phù hợp với từng nhu cầu kinh doanh độc đáo.</li>
+                        <li class="fade-in-up">**Hiệu quả vượt trội:** Cam kết mang lại giá trị thực, đo lường được cho doanh nghiệp.</li>
+                        <li class="fade-in-up">**Hỗ trợ tận tâm:** Đồng hành cùng khách hàng từ tư vấn đến triển khai và vận hành.</li>
+                        <li class="fade-in-up">**Công nghệ tiên tiến:** Luôn cập nhật và ứng dụng những công nghệ AI mới nhất.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="gradient-bg text-white py-16 md:py-24 text-center">
+            <div class="container mx-auto px-4 md:px-6">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                    Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                </h2>
+                <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                    Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                </p>
+                <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start px-4 md:px-6 gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="text-xl font-bold text-white mb-4">Phú Nhuận AI</h3>
+                <p class="text-gray-400">
+                    Tự động hóa thông minh, đột phá doanh nghiệp bạn.
+                </p>
+                <div class="flex justify-center md:justify-start space-x-4 mt-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd"></path></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center md:text-left">
+                <h3 class="text-xl font-bold text-white mb-4">Liên kết nhanh</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-200">Trang chủ</a></li>
+                    <li><a href="dich-vu.html" class="text-gray-400 hover:text-white transition duration-200">Dịch vụ</a></li>
+                    <li><a href="giai-phap.html" class="text-gray-400 hover:text-white transition duration-200">Giải pháp theo ngành</a></li>
+                    <li><a href="case-study.html" class="text-gray-400 hover:text-white transition duration-200">Case Study</a></li>
+                    <li><a href="blog.html" class="text-gray-400 hover:text-white transition duration-200">Blog</a></li>
+                    <li><a href="ve-chung-toi.html" class="text-gray-400 hover:text-white transition duration-200">Về chúng tôi</a></li>
+                </ul>
+            </div>
+            <div class="text-center md:text-left">
+                <h3 class="text-xl font-bold text-white mb-4">Thông tin liên hệ</h3>
+                <p class="text-gray-400">Địa chỉ: 123 Đường AI, Quận Phú Nhuận, TP.HCM</p>
+                <p class="text-gray-400">Điện thoại: (84) 123 456 789</p>
+                <p class="text-gray-400">Email: info@phunhuanai.vn</p>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-8">
+            © 2024 Phú Nhuận AI. Mọi quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeContactModal()">×</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Yêu Cầu Tư Vấn Miễn Phí</h2>
+            <form>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Họ và Tên:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập họ và tên của bạn">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập email của bạn">
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Số điện thoại:</label>
+                    <input type="tel" id="phone" name="phone" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập số điện thoại của bạn">
+                </div>
+                <div class="mb-6">
+                    <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Nội dung yêu cầu:</label>
+                    <textarea id="message" name="message" rows="4" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Mô tả nhu cầu của bạn..."></textarea>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="btn-primary">Gửi Yêu Cầu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Contact Modal functionality
+        function openContactModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('contactModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Intersection Observer for scroll animations
+        let observer; // Declare observer globally
+
+        function initializeAnimations() {
+            // Disconnect previous observer if it exists
+            if (observer) {
+                observer.disconnect();
+            }
+
+            const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null, /* viewport */
+                rootMargin: '0px',
+                threshold: 0.1 /* 10% of element visible */
+            };
+
+            observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                        obs.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(element => {
+                element.classList.remove('animate-visible');
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    element.classList.add('animate-visible');
+                } else {
+                    observer.observe(element);
+                }
+            });
+        }
+
+        // Initial page load and setup
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAnimations();
+        });
+    </script>
+</body>
+</html>
