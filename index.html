@@ -69,21 +69,52 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Animation on scroll styles */
+        .fade-in-up {
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up:not(.animate-visible) {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-in-up.animate-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Carousel specific styles */
+        .carousel-container {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none;  /* For IE and Edge */
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+        .carousel-item {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+        }
     </style>
 </head>
 <body class="text-gray-700">
 
     <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center px-4 md:px-6">
-            <a href="#" class="text-2xl font-bold text-blue-800">Phú Nhuận AI</a>
+            <a href="#" class="text-2xl font-bold text-blue-800" onclick="renderPage('home')">Phú Nhuận AI</a>
             <nav class="hidden md:flex space-x-6">
-                <a href="#home" class="text-gray-600 hover:text-blue-600 transition duration-200">Trang chủ</a>
-                <a href="#services" class="text-gray-600 hover:text-blue-600 transition duration-200">Dịch vụ</a>
-                <a href="#solutions-by-industry" class="text-gray-600 hover:text-blue-600 transition duration-200">Giải pháp theo ngành</a>
-                <a href="#case-studies" class="text-gray-600 hover:text-blue-600 transition duration-200">Case Study</a>
-                <a href="#blog" class="text-gray-600 hover:text-blue-600 transition duration-200">Blog</a>
-                <a href="#about" class="text-gray-600 hover:text-blue-600 transition duration-200">Về chúng tôi</a>
-                <a href="#contact" class="btn-primary">Liên hệ</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('home')">Trang chủ</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('services')">Dịch vụ</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('solutions')">Giải pháp theo ngành</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('case-studies')">Case Study</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('blog')">Blog</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-200" onclick="renderPage('about')">Về chúng tôi</a>
+                <a href="#" class="btn-primary" onclick="openContactModal()">Liên hệ</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -91,238 +122,19 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-md">
             <nav class="flex flex-col space-y-2">
-                <a href="#home" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Trang chủ</a>
-                <a href="#services" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Dịch vụ</a>
-                <a href="#solutions-by-industry" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Giải pháp theo ngành</a>
-                <a href="#case-studies" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Case Study</a>
-                <a href="#blog" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Blog</a>
-                <a href="#about" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2">Về chúng tôi</a>
-                <a href="#contact" class="block btn-primary text-center py-2">Liên hệ</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('home')">Trang chủ</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('services')">Dịch vụ</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('solutions')">Giải pháp theo ngành</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('case-studies')">Case Study</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('blog')">Blog</a>
+                <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-200 py-2" onclick="renderPage('about')">Về chúng tôi</a>
+                <a href="#" class="block btn-primary text-center py-2" onclick="openContactModal()">Liên hệ</a>
             </nav>
         </div>
     </header>
 
-    <section id="home" class="gradient-bg text-white py-20 md:py-32 text-center">
-        <div class="container mx-auto px-4 md:px-6">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-                Tự Động Hóa Thông Minh, Đột Phá Doanh Nghiệp Bạn
-            </h1>
-            <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto">
-                Phú Nhuận AI cung cấp các giải pháp tự động hóa dựa trên Trí tuệ Nhân tạo tiên tiến, giúp doanh nghiệp tối ưu quy trình, giảm chi phí và tăng trưởng bền vững.
-            </p>
-            <div class="space-x-4">
-                <button class="btn-primary" onclick="openContactModal()">Yêu Cầu Tư Vấn Miễn Phí</button>
-                <a href="#services" class="btn-secondary text-white border-white hover:bg-white hover:text-blue-600">Khám Phá Dịch Vụ</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2">
-                <h2 class="section-title text-left">Về Chúng Tôi</h2>
-                <p class="text-lg mb-4 leading-relaxed">
-                    Phú Nhuận AI là đơn vị tiên phong trong lĩnh vực cung cấp giải pháp tự động hóa dựa trên Trí tuệ Nhân tạo tại Việt Nam. Với đội ngũ chuyên gia giàu kinh nghiệm và am hiểu sâu sắc về công nghệ, chúng tôi cam kết mang đến những giải pháp tối ưu, giúp doanh nghiệp chuyển đổi số thành công và đạt được hiệu quả vượt trội.
-                </p>
-                <p class="text-lg leading-relaxed">
-                    Sứ mệnh của chúng tôi là trao quyền cho các doanh nghiệp, từ nhỏ đến lớn, để khai thác sức mạnh của AI, tự động hóa các quy trình phức tạp, nâng cao năng suất và tạo ra giá trị bền vững trong kỷ nguyên số.
-                </p>
-                <a href="#contact" class="btn-primary mt-6 inline-block">Tìm Hiểu Thêm</a>
-            </div>
-            <div class="md:w-1/2">
-                <img src="https://placehold.co/600x400/1e3a8a/ffffff?text=Về+Phú+Nhuận+AI" alt="Về Phú Nhuận AI" class="rounded-xl shadow-lg w-full h-auto object-cover">
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="py-16 md:py-24 bg-gray-50">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="section-title">Dịch Vụ Của Chúng Tôi</h2>
-            <p class="text-center text-lg mb-12 max-w-3xl mx-auto">
-                Chúng tôi cung cấp các giải pháp AI Automation đa dạng, được tùy chỉnh để phù hợp với nhu cầu đặc thù của từng ngành và từng doanh nghiệp.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.007 12.007 0 002.944 12c0 2.897.99 5.618 2.766 7.728A11.955 11.955 0 0112 21.056c2.897 0 5.618-.99 7.728-2.766A11.955 11.955 0 0121.056 12a12.007 12.007 0 00-3.438-8.618z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tự Động Hóa Quy Trình (RPA + AI)</h3>
-                    <p class="text-gray-600">
-                        Tự động hóa các tác vụ lặp đi lặp lại, xử lý tài liệu, quản lý quy trình nghiệp vụ để tăng hiệu quả và giảm lỗi.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">AI Trong Chăm Sóc Khách Hàng</h3>
-                    <p class="text-gray-600">
-                        Triển khai Chatbot, Voicebot thông minh và hệ thống phân tích cảm xúc để nâng cao trải nghiệm khách hàng.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h4"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Phân Tích Dữ Liệu Thông Minh</h3>
-                    <p class="text-gray-600">
-                        Sử dụng AI để xử lý dữ liệu lớn, đưa ra insight sâu sắc và dự đoán xu hướng, hỗ trợ ra quyết định kinh doanh.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">AI Cho Marketing & Sales</h3>
-                    <p class="text-gray-600">
-                        Tự động hóa chiến dịch marketing, cá nhân hóa nội dung và tối ưu hóa kênh bán hàng để tăng doanh số.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Giải Pháp AI Theo Yêu Cầu</h3>
-                    <p class="text-gray-600">
-                        Phát triển các giải pháp AI tùy chỉnh, đáp ứng chính xác các thách thức và mục tiêu kinh doanh độc đáo của bạn.
-                    </p>
-                </div>
-                <div class="card">
-                    <div class="text-blue-600 mb-4">
-                        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.09 9.09a3 3 0 104.242 4.242M12 12v.01"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tư Vấn & Triển Khai AI</h3>
-                    <p class="text-gray-600">
-                        Đội ngũ chuyên gia của chúng tôi sẽ đồng hành cùng bạn từ khâu tư vấn chiến lược đến triển khai và hỗ trợ kỹ thuật.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="solutions-by-industry" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="section-title">Giải Pháp Theo Ngành</h2>
-            <p class="text-center text-lg mb-12 max-w-3xl mx-auto">
-                Các giải pháp AI Automation của chúng tôi được thiết kế đặc biệt để giải quyết những thách thức riêng của từng ngành.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tài chính & Ngân hàng</h3>
-                    <p class="text-gray-600">
-                        Tự động hóa phát hiện gian lận, chấm điểm tín dụng, hỗ trợ khách hàng và quản lý rủi ro.
-                    </p>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Sản xuất & Chuỗi cung ứng</h3>
-                    <p class="text-gray-600">
-                        Tối ưu hóa quy trình sản xuất, dự báo nhu cầu, quản lý kho bãi và logistics.
-                    </p>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Bán lẻ & Thương mại điện tử</h3>
-                    <p class="text-gray-600">
-                        Cá nhân hóa trải nghiệm mua sắm, quản lý hàng tồn kho, tự động hóa dịch vụ khách hàng.
-                    </p>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Y tế & Chăm sóc sức khỏe</h3>
-                    <p class="text-gray-600">
-                        Hỗ trợ chẩn đoán, quản lý hồ sơ bệnh án, tự động hóa quy trình hành chính.
-                    </p>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Giáo dục</h3>
-                    <p class="text-gray-600">
-                        Cá nhân hóa lộ trình học tập, tự động hóa chấm điểm, quản lý tuyển sinh.
-                    </p>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Bất động sản</h3>
-                    <p class="text-gray-600">
-                        Phân tích thị trường, tự động hóa quản lý hợp đồng, hỗ trợ khách hàng tiềm năng.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="case-studies" class="py-16 md:py-24 bg-gray-50">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="section-title">Case Study & Câu Chuyện Thành Công</h2>
-            <p class="text-center text-lg mb-12 max-w-3xl mx-auto">
-                Xem cách các giải pháp AI Automation của chúng tôi đã giúp các doanh nghiệp đạt được kết quả vượt trội.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="card p-6 md:p-8">
-                    <img src="https://placehold.co/400x250/3b82f6/ffffff?text=Case+Study+1" alt="Case Study 1" class="rounded-lg mb-6 w-full h-auto object-cover">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tối ưu hóa quy trình kế toán cho Công ty X</h3>
-                    <p class="text-gray-600 mb-4">
-                        Giúp Công ty X tự động hóa 70% quy trình nhập liệu và đối soát hóa đơn, giảm thiểu sai sót và tiết kiệm 30% thời gian.
-                    </p>
-                    <a href="#" class="text-blue-600 hover:underline font-medium">Đọc thêm &rarr;</a>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <img src="https://placehold.co/400x250/1e3a8a/ffffff?text=Case+Study+2" alt="Case Study 2" class="rounded-lg mb-6 w-full h-auto object-cover">
-                    <h3 class="text-2xl font-semibold mb-3 text-gray-800">Nâng cao trải nghiệm khách hàng cho Chuỗi bán lẻ Y</h3>
-                    <p class="text-gray-600 mb-4">
-                        Triển khai Chatbot AI hỗ trợ 24/7, giúp giảm 40% cuộc gọi đến tổng đài và tăng mức độ hài lòng của khách hàng lên 15%.
-                    </p>
-                    <a href="#" class="text-blue-600 hover:underline font-medium">Đọc thêm &rarr;</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="blog" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="section-title">Blog & Kiến Thức</h2>
-            <p class="text-center text-lg mb-12 max-w-3xl mx-auto">
-                Cập nhật những thông tin, xu hướng và kiến thức mới nhất về AI Automation và chuyển đổi số.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card p-6 md:p-8">
-                    <img src="https://placehold.co/400x250/60a5fa/ffffff?text=Blog+1" alt="Blog Post 1" class="rounded-lg mb-6 w-full h-auto object-cover">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">5 Xu Hướng AI Nổi Bật Năm 2024</h3>
-                    <p class="text-gray-600 text-sm mb-4">Ngày 20 tháng 5, 2024</p>
-                    <p class="text-gray-600 mb-4">
-                        Khám phá những xu hướng AI đang định hình tương lai của doanh nghiệp và cách bạn có thể tận dụng chúng.
-                    </p>
-                    <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <img src="https://placehold.co/400x250/4f46e5/ffffff?text=Blog+2" alt="Blog Post 2" class="rounded-lg mb-6 w-full h-auto object-cover">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Tự Động Hóa Có Thay Thế Con Người?</h3>
-                    <p class="text-gray-600 text-sm mb-4">Ngày 15 tháng 5, 2024</p>
-                    <p class="text-gray-600 mb-4">
-                        Phân tích vai trò của tự động hóa trong tương lai công việc và cách AI có thể bổ trợ con người.
-                    </p>
-                    <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
-                </div>
-                <div class="card p-6 md:p-8">
-                    <img src="https://placehold.co/400x250/1e3a8a/ffffff?text=Blog+3" alt="Blog Post 3" class="rounded-lg mb-6 w-full h-auto object-cover">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Hướng Dẫn Triển Khai AI Automation Thành Công</h3>
-                    <p class="text-gray-600 text-sm mb-4">Ngày 10 tháng 5, 2024</p>
-                    <p class="text-gray-600 mb-4">
-                        Các bước cần thiết để doanh nghiệp bạn triển khai các giải pháp AI Automation một cách hiệu quả.
-                    </p>
-                    <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="gradient-bg text-white py-16 md:py-24 text-center">
-        <div class="container mx-auto px-4 md:px-6">
-            <h2 class="text-3xl md:text-5xl font-bold mb-6">
-                Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
-            </h2>
-            <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto">
-                Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
-            </p>
-            <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
-        </div>
-    </section>
+    <main id="main-content">
+        </main>
 
     <footer class="bg-gray-800 text-gray-300 py-12">
         <div class="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -333,7 +145,622 @@
                 </p>
                 <div class="flex space-x-4 mt-6">
                     <a href="#" class="text-gray-400 hover:text-white transition duration-200">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" /></svg>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd"></path></svg>
                     </a>
                     <a href="#" class="text-gray-400 hover:text-white transition duration-200">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.27 1.25c-5.46 0-9.92 4.46-9.92 9.92 0 2.27.76 4.37 2.05 6.05l-1.39 4.39 4.54-1.35c1.69.92 3.65 1.45 5.38 1.45 5.46 0 9.92-4.46 9.92-9.92.01-5.47-4.45-9.93-9.91-9.93zM16.92 14.86c-.1-.16-.36-.26-.74-.45-.38-.19-.74-.3-.98-.34-.25-.04-.44-.04-.63.26-.19.3-.74.92-.9.99-.16.07-.31.08-.58.03-.27-.05-1.14-.42-2.18-1.35-.8-1.12-1.34-2.5-1.5-2.77-.16-.27-.02-.42.12-.55.12-.12.26-.3.38-.45.12-.15.16-.27.25-.45.09-.19.05-.34-.02-.48-.07-.15-.63-1.52-.87-2.07-.23-.55-.46-.47-.63-.48-.16-.01-.36-.01-.55-.01-.19 0-.49.07-.74.34-.25.27-.94.92-.94 2.24 0 1.32.96 2.59 1.09 2.79.13.2.26.41.48.65.2.23.4.47.63.7.23.23.45.42.63.55.18.13.38.25.58.34.2.09.4.15.58.18.18.03.36.03.55 0 .19-.03.38-.09.55-.16.17-.07.38-.19.55-.34.17-.16.34-.36.48-.55.14-.19.23-.34.32-.48.09-.14.16-.27.23-.38.07-.12.12-.2.16-.27.04-.07.07-.12.09-.16.02-.04.03-.07.03-.09.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04.01-.02.01-.03.01-.04
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold text-white mb-4">Liên kết nhanh</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('home')">Trang chủ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('services')">Dịch vụ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('solutions')">Giải pháp theo ngành</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('case-studies')">Case Study</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('blog')">Blog</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200" onclick="renderPage('about')">Về chúng tôi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold text-white mb-4">Thông tin liên hệ</h3>
+                <p class="text-gray-400">Địa chỉ: 123 Đường AI, Quận Phú Nhuận, TP.HCM</p>
+                <p class="text-gray-400">Điện thoại: (84) 123 456 789</p>
+                <p class="text-gray-400">Email: info@phunhuanai.vn</p>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-8">
+            &copy; 2024 Phú Nhuận AI. Mọi quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeContactModal()">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Yêu Cầu Tư Vấn Miễn Phí</h2>
+            <form>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Họ và Tên:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập họ và tên của bạn">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập email của bạn">
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Số điện thoại:</label>
+                    <input type="tel" id="phone" name="phone" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập số điện thoại của bạn">
+                </div>
+                <div class="mb-6">
+                    <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Nội dung yêu cầu:</label>
+                    <textarea id="message" name="message" rows="4" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Mô tả nhu cầu của bạn..."></textarea>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="btn-primary">Gửi Yêu Cầu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Contact Modal functionality
+        function openContactModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('contactModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Intersection Observer for scroll animations
+        let observer; // Declare observer globally
+
+        function initializeAnimations() {
+            // Disconnect previous observer if it exists
+            if (observer) {
+                observer.disconnect();
+            }
+
+            const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null, /* viewport */
+                rootMargin: '0px',
+                threshold: 0.1 /* 10% of element visible */
+            };
+
+            observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                        obs.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(element => {
+                // Ensure elements are in their initial hidden state before observing
+                element.classList.remove('animate-visible');
+                observer.observe(element);
+            });
+        }
+
+        // Carousel functionality (moved into a function to be called after content load)
+        function initializeCarousel() {
+            const carousel = document.getElementById('carousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (carousel && prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => {
+                    carousel.scrollBy({
+                        left: -carousel.offsetWidth / 2, // Scroll half the carousel width
+                        behavior: 'smooth'
+                    });
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    carousel.scrollBy({
+                        left: carousel.offsetWidth / 2, // Scroll half the carousel width
+                        behavior: 'smooth'
+                    });
+                });
+
+                const checkOverflow = () => {
+                    if (carousel.scrollWidth > carousel.clientWidth) {
+                        prevBtn.style.display = 'block';
+                        nextBtn.style.display = 'block';
+                    } else {
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                    }
+                };
+
+                checkOverflow();
+                window.addEventListener('resize', checkOverflow);
+            }
+        }
+
+        // --- Page Content Definitions ---
+        const pageContent = {
+            'home': () => `
+                <section id="home-section" class="gradient-bg text-white py-20 md:py-32 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                            Tự Động Hóa Thông Minh, Đột Phá Doanh Nghiệp Bạn
+                        </h1>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto">
+                            Phú Nhuận AI cung cấp các giải pháp tự động hóa dựa trên Trí tuệ Nhân tạo tiên tiến, giúp doanh nghiệp tối ưu quy trình, giảm chi phí và tăng trưởng bền vững.
+                        </p>
+                        <div class="space-x-4">
+                            <button class="btn-primary" onclick="openContactModal()">Yêu Cầu Tư Vấn Miễn Phí</button>
+                            <a href="#" class="btn-secondary text-white border-white hover:bg-white hover:text-blue-600" onclick="renderPage('services')">Khám Phá Dịch Vụ</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="about-section" class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center gap-12">
+                        <div class="md:w-1/2">
+                            <h2 class="section-title text-left fade-in-up">Về Chúng Tôi</h2>
+                            <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                                Phú Nhuận AI là đơn vị tiên phong trong lĩnh vực cung cấp giải pháp tự động hóa dựa trên Trí tuệ Nhân tạo tại Việt Nam. Với đội ngũ chuyên gia giàu kinh nghiệm và am hiểu sâu sắc về công nghệ, chúng tôi cam kết mang đến những giải pháp tối ưu, giúp doanh nghiệp chuyển đổi số thành công và đạt được hiệu quả vượt trội.
+                            </p>
+                            <p class="text-lg leading-relaxed fade-in-up">
+                                Sứ mệnh của chúng tôi là trao quyền cho các doanh nghiệp, từ nhỏ đến lớn, để khai thác sức mạnh của AI, tự động hóa các quy trình phức tạp, nâng cao năng suất và tạo ra giá trị bền vững trong kỷ nguyên số.
+                            </p>
+                            <a href="#" class="btn-primary mt-6 inline-block fade-in-up" onclick="renderPage('about')">Tìm Hiểu Thêm</a>
+                        </div>
+                        <div class="md:w-1/2 fade-in-up">
+                            <img src="https://placehold.co/600x400/1e3a8a/ffffff?text=Về+Phú+Nhuận+AI" alt="Về Phú Nhuận AI" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="clients-carousel-section" class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Đối Tác Của Chúng Tôi</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Chúng tôi tự hào là đối tác tin cậy của nhiều doanh nghiệp hàng đầu trong các lĩnh vực khác nhau.
+                        </p>
+                        <div class="relative">
+                            <div id="carousel" class="carousel-container flex space-x-8 pb-4">
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+A" alt="Client Logo A" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+B" alt="Client Logo B" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+C" alt="Client Logo C" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+D" alt="Client Logo D" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+E" alt="Client Logo E" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <div class="carousel-item w-48 h-24 flex items-center justify-center bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="https://placehold.co/120x60/e0e0e0/333333?text=Logo+F" alt="Client Logo F" class="max-w-full max-h-full object-contain">
+                                </div>
+                            </div>
+                            <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 focus:outline-none">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 focus:outline-none">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'services': () => `
+                <section id="services-section" class="py-16 md:py-24 bg-gray-50">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Dịch Vụ Của Chúng Tôi</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Chúng tôi cung cấp các giải pháp AI Automation đa dạng, được tùy chỉnh để phù hợp với nhu cầu đặc thù của từng ngành và từng doanh nghiệp.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.007 12.007 0 002.944 12c0 2.897.99 5.618 2.766 7.728A11.955 11.955 0 0112 21.056c2.897 0 5.618-.99 7.728-2.766A11.955 11.955 0 0121.056 12a12.007 12.007 0 00-3.438-8.618z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tự Động Hóa Quy Trình (RPA + AI)</h3>
+                                <p class="text-gray-600">
+                                    Tự động hóa các tác vụ lặp đi lặp lại, xử lý tài liệu, quản lý quy trình nghiệp vụ để tăng hiệu quả và giảm lỗi.
+                                </p>
+                            </div>
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">AI Trong Chăm Sóc Khách Hàng</h3>
+                                <p class="text-gray-600">
+                                    Triển khai Chatbot, Voicebot thông minh và hệ thống phân tích cảm xúc để nâng cao trải nghiệm khách hàng.
+                                </p>
+                            </div>
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h4"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Phân Tích Dữ Liệu Thông Minh</h3>
+                                <p class="text-gray-600">
+                                    Sử dụng AI để xử lý dữ liệu lớn, đưa ra insight sâu sắc và dự đoán xu hướng, hỗ trợ ra quyết định kinh doanh.
+                                </p>
+                            </div>
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">AI Cho Marketing & Sales</h3>
+                                <p class="text-gray-600">
+                                    Tự động hóa chiến dịch marketing, cá nhân hóa nội dung và tối ưu hóa kênh bán hàng để tăng doanh số.
+                                </p>
+                            </div>
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Giải Pháp AI Theo Yêu Cầu</h3>
+                                <p class="text-gray-600">
+                                    Phát triển các giải pháp AI tùy chỉnh, đáp ứng chính xác các thách thức và mục tiêu kinh doanh độc đáo của bạn.
+                                </p>
+                            </div>
+                            <div class="card fade-in-up">
+                                <div class="text-blue-600 mb-4">
+                                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.09 9.09a3 3 0 104.242 4.242M12 12v.01"></path></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tư Vấn & Triển Khai AI</h3>
+                                <p class="text-gray-600">
+                                    Đội ngũ chuyên gia của chúng tôi sẽ đồng hành cùng bạn từ khâu tư vấn chiến lược đến triển khai và hỗ trợ kỹ thuật.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'solutions': () => `
+                <section id="solutions-section" class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Giải Pháp Theo Ngành</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Các giải pháp AI Automation của chúng tôi được thiết kế đặc biệt để giải quyết những thách thức riêng của từng ngành.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tài chính & Ngân hàng</h3>
+                                <p class="text-gray-600">
+                                    Tự động hóa phát hiện gian lận, chấm điểm tín dụng, hỗ trợ khách hàng và quản lý rủi ro.
+                                </p>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Sản xuất & Chuỗi cung ứng</h3>
+                                <p class="text-gray-600">
+                                    Tối ưu hóa quy trình sản xuất, dự báo nhu cầu, quản lý kho bãi và logistics.
+                                </p>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Bán lẻ & Thương mại điện tử</h3>
+                                <p class="text-gray-600">
+                                    Cá nhân hóa trải nghiệm mua sắm, quản lý hàng tồn kho, tự động hóa dịch vụ khách hàng.
+                                </p>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Y tế & Chăm sóc sức khỏe</h3>
+                                <p class="text-gray-600">
+                                    Hỗ trợ chẩn đoán, quản lý hồ sơ bệnh án, tự động hóa quy trình hành chính.
+                                </p>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Giáo dục</h3>
+                                <p class="text-gray-600">
+                                    Cá nhân hóa lộ trình học tập, tự động hóa chấm điểm, quản lý tuyển sinh.
+                                </p>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Bất động sản</h3>
+                                <p class="text-gray-600">
+                                    Phân tích thị trường, tự động hóa quản lý hợp đồng, hỗ trợ khách hàng tiềm năng.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'case-studies': () => `
+                <section id="case-studies-section" class="py-16 md:py-24 bg-gray-50">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Case Study & Câu Chuyện Thành Công</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Xem cách các giải pháp AI Automation của chúng tôi đã giúp các doanh nghiệp đạt được kết quả vượt trội.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <img src="https://placehold.co/400x250/3b82f6/ffffff?text=Case+Study+1" alt="Case Study 1" class="rounded-lg mb-6 w-full h-auto object-cover">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Tối ưu hóa quy trình kế toán cho Công ty X</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Giúp Công ty X tự động hóa 70% quy trình nhập liệu và đối soát hóa đơn, giảm thiểu sai sót và tiết kiệm 30% thời gian.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:underline font-medium">Đọc thêm &rarr;</a>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <img src="https://placehold.co/400x250/1e3a8a/ffffff?text=Case+Study+2" alt="Case Study 2" class="rounded-lg mb-6 w-full h-auto object-cover">
+                                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Nâng cao trải nghiệm khách hàng cho Chuỗi bán lẻ Y</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Triển khai Chatbot AI hỗ trợ 24/7, giúp giảm 40% cuộc gọi đến tổng đài và tăng mức độ hài lòng của khách hàng lên 15%.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:underline font-medium">Đọc thêm &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'blog': () => `
+                <section id="blog-section" class="py-16 md:py-24 bg-gray-50">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Blog & Kiến Thức</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Cập nhật những thông tin, xu hướng và kiến thức mới nhất về AI Automation và chuyển đổi số.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <img src="https://placehold.co/400x250/60a5fa/ffffff?text=Blog+1" alt="Blog Post 1" class="rounded-lg mb-6 w-full h-auto object-cover">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800">5 Xu Hướng AI Nổi Bật Năm 2024</h3>
+                                <p class="text-gray-600 text-sm mb-4">Ngày 20 tháng 5, 2024</p>
+                                <p class="text-gray-600 mb-4">
+                                    Khám phá những xu hướng AI đang định hình tương lai của doanh nghiệp và cách bạn có thể tận dụng chúng.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <img src="https://placehold.co/400x250/4f46e5/ffffff?text=Blog+2" alt="Blog Post 2" class="rounded-lg mb-6 w-full h-auto object-cover">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800">Tự Động Hóa Có Thay Thế Con Người?</h3>
+                                <p class="text-gray-600 text-sm mb-4">Ngày 15 tháng 5, 2024</p>
+                                <p class="text-gray-600 mb-4">
+                                    Phân tích vai trò của tự động hóa trong tương lai công việc và cách AI có thể bổ trợ con người.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
+                            </div>
+                            <div class="card p-6 md:p-8 fade-in-up">
+                                <img src="https://placehold.co/400x250/1e3a8a/ffffff?text=Blog+3" alt="Blog Post 3" class="rounded-lg mb-6 w-full h-auto object-cover">
+                                <h3 class="text-xl font-semibold mb-2 text-gray-800">Hướng Dẫn Triển Khai AI Automation Thành Công</h3>
+                                <p class="text-gray-600 text-sm mb-4">Ngày 10 tháng 5, 2024</p>
+                                <p class="text-gray-600 mb-4">
+                                    Các bước cần thiết để doanh nghiệp bạn triển khai các giải pháp AI Automation một cách hiệu quả.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:underline font-medium">Đọc bài viết &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'about': () => `
+                <section id="about-full-section" class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Về Chúng Tôi</h2>
+                        <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
+                            <div class="md:w-1/2 fade-in-up">
+                                <img src="https://placehold.co/600x400/1e3a8a/ffffff?text=Về+Phú+Nhuận+AI" alt="Về Phú Nhuận AI" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                            </div>
+                            <div class="md:w-1/2">
+                                <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Câu Chuyện Của Phú Nhuận AI</h3>
+                                <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                                    Phú Nhuận AI được thành lập với niềm đam mê mang lại những giải pháp công nghệ đột phá, giúp các doanh nghiệp Việt Nam tối ưu hóa hoạt động và phát triển bền vững trong kỷ nguyên số. Chúng tôi tin rằng AI không chỉ là công cụ, mà là một đối tác chiến lược giúp doanh nghiệp đạt được những mục tiêu lớn hơn.
+                                </p>
+                                <p class="text-lg leading-relaxed fade-in-up">
+                                    Từ những ngày đầu, chúng tôi đã không ngừng nghiên cứu và phát triển các ứng dụng AI tiên tiến, từ tự động hóa quy trình nghiệp vụ đến phân tích dữ liệu chuyên sâu và cá nhân hóa trải nghiệm khách hàng. Mỗi giải pháp đều được thiết kế tỉ mỉ, phù hợp với đặc thù của từng khách hàng.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Tầm Nhìn & Sứ Mệnh</h3>
+                            <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                                **Tầm nhìn:** Trở thành đối tác AI Automation hàng đầu tại Việt Nam, góp phần định hình tương lai số của các doanh nghiệp.
+                            </p>
+                            <p class="text-lg leading-relaxed fade-in-up">
+                                **Sứ mệnh:** Cung cấp các giải pháp AI Automation thông minh, đáng tin cậy và hiệu quả, giúp doanh nghiệp nâng cao năng suất, giảm chi phí và tạo ra lợi thế cạnh tranh bền vững.
+                            </p>
+                        </div>
+
+                        <div class="mb-12">
+                            <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Đội Ngũ Chuyên Gia</h3>
+                            <p class="text-lg mb-4 leading-relaxed fade-in-up">
+                                Đội ngũ của Phú Nhuận AI bao gồm các kỹ sư, nhà khoa học dữ liệu và chuyên gia tư vấn hàng đầu, những người không chỉ có kiến thức chuyên môn sâu rộng mà còn có kinh nghiệm thực chiến trong việc triển khai các dự án AI phức tạp. Chúng tôi luôn cập nhật những công nghệ mới nhất để đảm bảo khách hàng của mình luôn đi đầu.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                                <div class="card p-6 fade-in-up">
+                                    <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+1" alt="Thành viên 1" class="rounded-full mx-auto mb-4">
+                                    <h4 class="text-xl font-semibold text-gray-800">Nguyễn Văn A</h4>
+                                    <p class="text-blue-600 text-sm">CEO & Đồng Sáng Lập</p>
+                                    <p class="text-gray-600 text-sm mt-2">15+ năm kinh nghiệm trong lĩnh vực công nghệ và AI.</p>
+                                </div>
+                                <div class="card p-6 fade-in-up">
+                                    <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+2" alt="Thành viên 2" class="rounded-full mx-auto mb-4">
+                                    <h4 class="text-xl font-semibold text-gray-800">Trần Thị B</h4>
+                                    <p class="text-blue-600 text-sm">Trưởng phòng AI Solutions</p>
+                                    <p class="text-gray-600 text-sm mt-2">Chuyên gia về Machine Learning và Xử lý ngôn ngữ tự nhiên.</p>
+                                </div>
+                                <div class="card p-6 fade-in-up">
+                                    <img src="https://placehold.co/100x100/e0e0e0/333333?text=Ảnh+3" alt="Thành viên 3" class="rounded-full mx-auto mb-4">
+                                    <h4 class="text-xl font-semibold text-gray-800">Lê Văn C</h4>
+                                    <p class="text-blue-600 text-sm">Giám đốc Vận hành</p>
+                                    <p class="text-gray-600 text-sm mt-2">Tối ưu hóa quy trình và quản lý dự án hiệu quả.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-3xl font-semibold mb-4 text-gray-800 fade-in-up">Lý Do Chọn Phú Nhuận AI</h3>
+                            <ul class="list-disc list-inside text-lg space-y-2 text-gray-600">
+                                <li class="fade-in-up">**Chuyên môn sâu rộng:** Đội ngũ chuyên gia hàng đầu về AI và tự động hóa.</li>
+                                <li class="fade-in-up">**Giải pháp tùy chỉnh:** Thiết kế giải pháp phù hợp với từng nhu cầu kinh doanh độc đáo.</li>
+                                <li class="fade-in-up">**Hiệu quả vượt trội:** Cam kết mang lại giá trị thực, đo lường được cho doanh nghiệp.</li>
+                                <li class="fade-in-up">**Hỗ trợ tận tâm:** Đồng hành cùng khách hàng từ tư vấn đến triển khai và vận hành.</li>
+                                <li class="fade-in-up">**Công nghệ tiên tiến:** Luôn cập nhật và ứng dụng những công nghệ AI mới nhất.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section class="gradient-bg text-white py-16 md:py-24 text-center">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 fade-in-up">
+                            Sẵn Sàng Biến Đổi Doanh Nghiệp Của Bạn?
+                        </h2>
+                        <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto fade-in-up">
+                            Hãy để Phú Nhuận AI giúp bạn khai thác toàn bộ tiềm năng của Trí tuệ Nhân tạo. Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tự động hóa thông minh.
+                        </p>
+                        <button class="bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-900 transition duration-300 ease-in-out fade-in-up" onclick="openContactModal()">Liên Hệ Với Chúng Tôi</button>
+                    </div>
+                </section>
+            `,
+            'contact': () => `
+                <section id="contact-section" class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-4 md:px-6">
+                        <h2 class="section-title fade-in-up">Liên Hệ Với Chúng Tôi</h2>
+                        <p class="text-center text-lg mb-12 max-w-3xl mx-auto fade-in-up">
+                            Hãy để chúng tôi lắng nghe nhu cầu của bạn và cùng xây dựng giải pháp AI Automation tối ưu nhất.
+                        </p>
+                        <div class="max-w-xl mx-auto bg-gray-50 p-8 rounded-xl shadow-md fade-in-up">
+                            <form>
+                                <div class="mb-4">
+                                    <label for="contact-name" class="block text-gray-700 text-sm font-bold mb-2">Họ và Tên:</label>
+                                    <input type="text" id="contact-name" name="name" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập họ và tên của bạn">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="contact-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                    <input type="email" id="contact-email" name="email" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập email của bạn">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="contact-phone" class="block text-gray-700 text-sm font-bold mb-2">Số điện thoại:</label>
+                                    <input type="tel" id="contact-phone" name="phone" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập số điện thoại của bạn">
+                                </div>
+                                <div class="mb-6">
+                                    <label for="contact-message" class="block text-gray-700 text-sm font-bold mb-2">Nội dung yêu cầu:</label>
+                                    <textarea id="contact-message" name="message" rows="4" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Mô tả nhu cầu của bạn..."></textarea>
+                                </div>
+                                <div class="flex items-center justify-center">
+                                    <button type="submit" class="btn-primary">Gửi Yêu Cầu</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="mt-12 text-center fade-in-up">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Thông Tin Liên Hệ Trực Tiếp</h3>
+                            <p class="text-lg text-gray-600">Địa chỉ: 123 Đường AI, Quận Phú Nhuận, TP.HCM</p>
+                            <p class="text-lg text-gray-600">Điện thoại: (84) 123 456 789</p>
+                            <p class="text-lg text-gray-600">Email: info@phunhuanai.vn</p>
+                            <div class="mt-6">
+                                <a href="https://www.google.com/maps/search/?api=1&query=123+Đường+AI,+Quận+Phú+Nhuận,+TP.HCM" target="_blank" class="text-blue-600 hover:underline font-medium">Xem trên bản đồ &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `
+        };
+
+        // Function to render a specific page
+        function renderPage(pageId) {
+            const mainContentArea = document.getElementById('main-content');
+            if (pageContent[pageId]) {
+                mainContentArea.innerHTML = pageContent[pageId]();
+                // Scroll to top of the new page content
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Re-initialize animations for new content
+                initializeAnimations();
+                // Re-initialize carousel if it's the home page
+                if (pageId === 'home') {
+                    initializeCarousel();
+                }
+            } else {
+                mainContentArea.innerHTML = `<section class="py-20 text-center text-gray-600">
+                                                <h2 class="text-3xl font-bold mb-4">Trang không tìm thấy</h2>
+                                                <p>Xin lỗi, trang bạn yêu cầu không tồn tại.</p>
+                                            </section>`;
+            }
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Initial page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage('home'); // Load home page by default
+        });
+    </script>
+</body>
+</html>
